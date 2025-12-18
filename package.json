@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "DUHIGURE project using Express and SQLite3",
   "license": "ISC",
+<<<<<<< HEAD
   "author": "Tito Technologies <info@tito.com>",
+=======
+  "author": "Ruganzu Technologies <info@ruganzu.com>",
+>>>>>>> 34e626c (minikube deployment)
   "type": "module",
   "main": "server.js",
   "scripts": {
