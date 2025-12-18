@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: duhigure
+  namespace: duhigure
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: duhigure
+  template:
+    metadata:
+      labels:
+        app: duhigure
+    spec:
+      containers:
+        - name: duhigure
+          image: REPLACE_WITH_REGISTRY/duhigure:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
+            - name: DB_FILE
+              value: "/data/family_members.db"
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: sqlite-data
+              mountPath: /data
+      volumes:
+        - name: sqlite-data
+          persistentVolumeClaim:
+            claimName: duhigure-pvc
